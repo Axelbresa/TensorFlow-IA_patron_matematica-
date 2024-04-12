@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TensorFlow.js - Aprendizaje Lineal</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.2"></script>
+</head>
+<body>
+  <div id="output_field"></div>
+
+  <script>
+    async function learnLinear() {
+      // Crea un modelo secuencial
+      const model = tf.sequential();
+
+      // Agrega una capa densa con una neurona
+      model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+
+      // Compila el modelo
+      model.compile({
+        loss: 'meanSquaredError',
+        optimizer: 'sgd'
+      });
+
+      // Define los datos de entrenamiento
+      const xs = tf.tensor2d([-1, 0, 1, 2, 3, 4], [6, 1]);
+      const ys = tf.tensor2d([-3, -1, 1, 3, 5, 7], [6, 1]);
+
+      // Entrena el modelo
+      await model.fit(xs, ys, {epochs: 1000});
+
+      // Predice el valor para un nuevo punto
+      const prediction = model.predict(tf.tensor2d([20], [1, 1]));
+
+      // Muestra la predicción
+      document.getElementById('output_field').innerText = prediction;
+    }
+
+    // Llama a la función para entrenar y predecir
+    learnLinear();
+  </script>
+</body>
+</html>
