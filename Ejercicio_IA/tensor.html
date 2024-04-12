@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequential Model - TensorFlow.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sequential Model - TensorFlow.js</h1>
+
+        <div class="formula">
+            <p>Model Formula:</p>
+            <p>y = 2x + 6</p>
+        </div>
+
+        <div class="buttons">
+            <button onclick="trainModel()">Train Model</button>
+        </div>
+
+        <div class="prediction">
+            <label for="input_value">Enter X value:</label>
+            <input type="number" id="input_value" value="0">
+            <button onclick="predictValue()">Predict</button>
+        </div>
+
+        <div id="training_status"></div>
+        <div id="prediction_result"></div>
+    </div>
+
+    <script>
+        let model;
+
+        function createModel() {
+            model = tf.sequential();
+            model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
+            model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
+
+            const trainingStatus = document.getElementById('training_status');
+            trainingStatus.innerText = 'Model created.';
+
+            const predictButton = document.querySelector('#input_value + button');
+            predictButton.disabled = false;
+        }
+
+        async function trainModel() {
+            createModel();
+
+            const xs = tf.tensor2d([-6, -5, -4, -3, -2, -1, 0, 1, 2], [9, 1]);
+            const ys = tf.tensor2d([6, 8, 10, 12, 14, 16, 18, 20, 22], [9, 1]);
+
+            const trainingStatus = document.getElementById('training_status');
+            trainingStatus.innerText = 'Training the model...';
+
+            await model.fit(xs, ys, { epochs: 250 });
+
+            trainingStatus.innerText = 'Training completed! Model is ready for prediction.';
+        }
+
+        async function predictValue() {
+            const inputValue = document.getElementById('input_value').value.trim();
+
+            // Verificar si no se ha ingresado ningún valor
+            if (inputValue === '') {
+                alert('Por favor, ingrese un valor antes de hacer la predicción.');
+                return; // Detener la ejecución si no se ha ingresado ningún valor
+            }
+
+            const numericValue = Number(inputValue);
+
+            // Verificar si el valor ingresado es un número válido
+            if (isNaN(numericValue)) {
+                alert('Por favor, ingrese un valor numérico válido.');
+                return; // Detener la ejecución si el valor ingresado no es numérico
+            }
+
+            if (model) {
+                const input = tf.tensor2d([[numericValue]], [1, 1]);
+                const prediction = model.predict(input);
+                const predictedValue = prediction.dataSync()[0];
+
+                const predictionResult = document.getElementById('prediction_result');
+                predictionResult.innerText = `Para x = ${numericValue}, y predicho = ${predictedValue}`;
+            } else {
+                alert('¡Por favor, entrene el modelo primero!');
+            }
+        }
+    </script>
+</body>
+</html>
