@@ -7,7 +7,13 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #000000;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
+h1{
+    background-color: #eaf600;
+    color: #030c14;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .container {
@@ -29,7 +35,7 @@ h1 {
     margin: 20px 100px;
     background-color: #ffffff;
     color: #000000;
-    height: 50px;
+    height: 55px;
     justify-content: center;
     align-items: center;
 }
@@ -55,16 +61,18 @@ button {
     color: #fff;
     border: none;
     border-radius: 4px;
+    margin: 10px;
 }
 
 button:hover{
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
     background-color: #eaf600;
     color: #000000;
     border: none;
     border-radius: 4px;   
+    margin: 10px;
 }
 
 button:disabled {
@@ -79,4 +87,32 @@ button:disabled {
 
 #prediction_result {
     font-weight: bold;
+}
+
+label{
+    background-color: #eaf600;
+    color: #030c14;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+    font-size: large; 
+}
+
+#Caja{
+    border: 1px solid cadetblue;
+    height: 80px;
+    width: 230px;
+    align-items: center;
+    margin: 10px 80px;
+    justify-content: center;
+    background-color: #ffffff;
+    display: none;
+}
+
+#Caja h3{
+    background-color: #030c14;
+    margin: 0px 0px;
+}
+
+#Caja div{
+    margin:20px 0px;
+    color: #030c14;
 }

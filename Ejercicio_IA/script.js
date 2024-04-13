@@ -39,21 +39,22 @@ async function entrenar() {
 }
 
 async function mostrarPrediccion() {
+    let cajaResultado=document.getElementById("Caja")
     let input = predecir();
-    if (input !== undefined) {
-        if (entrenado==false){
+    console.log('Estado actual del div:', cajaResultado.style.display);
+    
+    if (entrenado==false){
             alert("Aun no has entrenado la IA")
             return
         }
+        cajaResultado.style.display = 'block'
+
         // Predice el valor para un nuevo punto
         const prediction = model.predict(tf.tensor2d([[input]], [1, 1]));
 
         // Muestra la predicción
         const output = await prediction.data();
         document.getElementById('output_field').innerText = output;
-    }else{
-        alert("Debes ingresar un numero")
-    }
 }
 
 botonPredecir.addEventListener("click", mostrarPrediccion);
