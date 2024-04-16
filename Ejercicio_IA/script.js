@@ -33,7 +33,21 @@ async function entrenar() {
     const ys = tf.tensor2d([4, 6, 8, 10, 12, 14], [6, 1]);
 
     // Entrena el modelo
-    await model.fit(xs, ys, { epochs: 250 });
+    // await model.fit(xs, ys, { epochs: 250 });
+    const surface = { name: "Loss", tab: "Training" };
+    const history = [];
+  
+    await model.fit(xs, ys, {
+      epochs: 2,
+      callbacks: {
+        onEpochEnd: async (epoch, logs) => {
+          history.push(logs);
+          await tfvis.show.history(surface, history, ["loss"]);
+          console.log(`Epoch ${epoch + 1}, Loss: ${logs.loss}`);
+        }
+      }
+    });
+
     entrenadoLabel.innerText = "Ya está entrenado tu IA";
     entrenado=true
 }
